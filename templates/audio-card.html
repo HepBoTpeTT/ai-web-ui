@@ -1,0 +1,50 @@
+<div class="audio-container">
+    <div class="image-container">
+        <img src="{{ url_for('static', filename=image) }}" alt="{{ name }}" class="img-fluid">
+    </div>
+    <div class="audio-interactive">
+        {% if emotion != '' %}
+            <p class="emotional-status">Emotion: <span>{{emotion}}</span></p>
+        {% endif %}
+        <p class="audio-name">{{ name }}</p>
+
+        <audio src="{{ url_for('static', filename=audio_path) }}" type="audio/wav" preload="metadata">
+            Ваш браузер не поддерживает <bold>audio</bold> тэг.
+        </audio>
+
+        <nav class="audio-controls">
+            <button type="button" name="playPause" class="pause">
+                <svg viewBox="0 0 24 24" fill="none" name="playSVG" style="display: block;" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M21.4086 9.35258C23.5305 10.5065 23.5305 13.4935 21.4086 14.6474L8.59662 
+                            21.6145C6.53435 22.736 4 21.2763 4 18.9671L4 5.0329C4 2.72368 6.53435 
+                            1.26402 8.59661 2.38548L21.4086 9.35258Z"/>
+                </svg>
+                <svg viewBox="0 0 24 24" fill="none" name="pauseSVG" style="display: none;" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M2 6C2 4.11438 2 3.17157 2.58579 2.58579C3.17157 
+                            2 4.11438 2 6 2C7.88562 2 8.82843 2 9.41421 2.58579C10 
+                            3.17157 10 4.11438 10 6V18C10 19.8856 10 20.8284 9.41421 
+                            21.4142C8.82843 22 7.88562 22 6 22C4.11438 22 3.17157 22
+                            2.58579 21.4142C2 20.8284 2 19.8856 2 18V6Z"/>
+                    <path d="M14 6C14 4.11438 14 3.17157 14.5858 2.58579C15.1716 
+                            2 16.1144 2 18 2C19.8856 2 20.8284 2 21.4142 2.58579C22 
+                            3.17157 22 4.11438 22 6V18C22 19.8856 22 20.8284 21.4142 
+                            21.4142C20.8284 22 19.8856 22 18 22C16.1144 22 15.1716 
+                            22 14.5858 21.4142C14 20.8284 14 19.8856 14 18V6Z"/>
+                </svg>
+            </button>
+        </nav>
+
+        <div class="audio-listening-bar">
+            <div class="audio-listening-progress" style="width: 0%"></div>
+        </div>
+    </div>
+
+    <button class="update-emotion" type="button" title="Актуализировать данные">
+        <svg viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+            <rect x="0" fill="none" width="20" height="20"/>
+            <g>
+                <path d="M10.2 3.28c3.53 0 6.43 2.61 6.92 6h2.08l-3.5 4-3.5-4h2.32c-.45-1.97-2.21-3.45-4.32-3.45-1.45 0-2.73.71-3.54 1.78L4.95 5.66C6.23 4.2 8.11 3.28 10.2 3.28zm-.4 13.44c-3.52 0-6.43-2.61-6.92-6H.8l3.5-4c1.17 1.33 2.33 2.67 3.5 4H5.48c.45 1.97 2.21 3.45 4.32 3.45 1.45 0 2.73-.71 3.54-1.78l1.71 1.95c-1.28 1.46-3.15 2.38-5.25 2.38z"/>
+            </g>
+        </svg>
+    </button>
+</div>
