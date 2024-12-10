@@ -38,15 +38,12 @@ function unhighlight() {
 
 // Функция для обработки дропа файлов
 function handleDrop(e) {
-    const dt = e.dataTransfer;
-    const files = dt.files; // Получаем файлы из события дропа
-
-    handleFiles(files); // Обрабатываем файлы
+    handleFiles(e.dataTransfer.files);
 }
 
 // Функция для обработки файлов
 function handleFiles(files) {
-    const dataTransfer = new DataTransfer();
+    let dataTransfer = new DataTransfer();
     
     for (let i = 0; i < files.length; i++) {
         dataTransfer.items.add(files[i]);

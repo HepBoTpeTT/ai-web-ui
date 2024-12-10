@@ -47,6 +47,7 @@ main.audio{
     padding: 5rem 0 2rem 0;
     min-height: 100vh;
     height: fit-content;
+    align-items: flex-start;
 }
 header.audio button{
     border-radius: 0;
@@ -202,6 +203,7 @@ header.audio button{
     display: flex;
     justify-content: center;
     flex-wrap: wrap;
+    pointer-events: all;
 }
 .modal-header{
     font-size: 2rem;
@@ -233,7 +235,25 @@ header.audio button{
     width: 45px;
     margin-right: 1rem;
 }
-.modal-container button{
+.modal-container button[name="analyse"]{
     --font-size: 1.25rem;
     margin-top: 1.5rem;
+}
+.uploads-delete-button{
+    --width: 15px;
+    aspect-ratio: 1 / 1;
+    background: transparent;
+    border: none;
+    border-radius: 0px;
+    width: var(--width);
+    padding: 0;
+    margin: 0;
+    box-shadow: none;
+    position: absolute;
+    right: 0;
+}
+
+.uploads-delete-button svg{
+    aspect-ratio: 1 / 1;
+    width: var(--width);
 }
