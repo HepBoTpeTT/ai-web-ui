@@ -54,6 +54,7 @@ class AudioPlayer{
 window.addEventListener('DOMContentLoaded', ()=>{
     var filesList = document.querySelector('.uploads-list');
     var filesSaved = [];
+    var totalFiles = [];
 
     function createAudio(file, parent){
         let fileLi = document.createElement('li');
@@ -101,7 +102,6 @@ window.addEventListener('DOMContentLoaded', ()=>{
     function hideModal(event){
         if ((event.type === 'click' && event.target.className === 'uploads-modal active') || event.key === 'Escape'){
             filesList.innerHTML = '';
-            filesSaved = [];
             fileInput.value = '';
             document.querySelector('.uploads-modal').classList.remove('active');
         }
@@ -110,8 +110,6 @@ window.addEventListener('DOMContentLoaded', ()=>{
 
     fileInput.addEventListener('change', ()=>{
         const files = fileInput.files;
-
-        console.log(fileInput.files);
 
         if (files.length === 0) {return};
         document.querySelector('.uploads-modal').classList.add('active');
@@ -128,8 +126,10 @@ window.addEventListener('DOMContentLoaded', ()=>{
 
     document.querySelector('button[name="analyse"]').addEventListener('click', function(e) {
         e.preventDefault();
-        const files = filesSaved;
-        filesSaved = [];
+
+        const files = totalFiles.length !==0 ? totalFiles.filter(item => !filesSaved.includes(item)) : filesSaved;
+        console.log(files);
+        
         fileInput.value = '';
         filesList.innerHTML = '';
         document.querySelector('.uploads-modal').classList.remove('active');
@@ -140,6 +140,8 @@ window.addEventListener('DOMContentLoaded', ()=>{
             fileInput.click();
             return;
         }
+
+        totalFiles = [...new Set([...totalFiles, ...filesSaved])];
 
         for (const file of files){
             const formData = new FormData();

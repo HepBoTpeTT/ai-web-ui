@@ -20,6 +20,13 @@ def upload():
         return render_template('audio-card.html', name = files[0].filename, image = 'images/default-audio-image.webp',
                                audio_path = f'audio-source/{files[0].filename}', emotion = emotion)
 
+@app.route('/update_single', methods=['POST'])
+def update_single():
+    data = request.get_json()
+    print(data)
+    audio_path = data.get('audio_path', '')
+    emotion = start_analyse(audio_path)
+    return jsonify({'emotion' : emotion})
 
 if __name__ == "__main__":
     webbrowser.open_new_tab('http://127.0.0.1:5000/')
