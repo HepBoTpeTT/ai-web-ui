@@ -53,7 +53,7 @@ class AudioPlayer{
 
 window.addEventListener('DOMContentLoaded', ()=>{
     var filesList = document.querySelector('.uploads-list');
-    var filesSaved = [];
+    var localFiles = [];
     var totalFiles = [];
 
     function createAudio(file, parent){
@@ -77,7 +77,7 @@ window.addEventListener('DOMContentLoaded', ()=>{
                                     </svg>`;
 
         delButton.addEventListener('click', ()=>{
-            filesSaved = removeFileByName(filesSaved, file.name);
+            localFiles = removeFileByName(localFiles, file.name);
             parent.removeChild(fileLi);
         });
 
@@ -115,10 +115,10 @@ window.addEventListener('DOMContentLoaded', ()=>{
         document.querySelector('.uploads-modal').classList.add('active');
 
         [...files].forEach(newFile => {
-            const fileExists = filesSaved.find(file => file.name === newFile.name);
+            const fileExists = localFiles.find(file => file.name === newFile.name);
             if (/.wav/.exec(newFile.name) && !fileExists) {
                 createAudio(newFile, filesList);
-                filesSaved.push(newFile);
+                localFiles.push(newFile);
             }
         });
         fileInput.value = '';
@@ -127,10 +127,9 @@ window.addEventListener('DOMContentLoaded', ()=>{
     document.querySelector('button[name="analyse"]').addEventListener('click', function(e) {
         e.preventDefault();
 
-        const files = totalFiles.length !==0 ? totalFiles.filter(item => !filesSaved.includes(item)) : filesSaved;
+        const files = localFiles.filter(item => !totalFiles.includes(item));
         console.log(files);
         
-        fileInput.value = '';
         filesList.innerHTML = '';
         document.querySelector('.uploads-modal').classList.remove('active');
         const DOMparser = new DOMParser();
@@ -141,7 +140,7 @@ window.addEventListener('DOMContentLoaded', ()=>{
             return;
         }
 
-        totalFiles = [...new Set([...totalFiles, ...filesSaved])];
+        totalFiles = [...totalFiles, ...localFiles];
 
         for (const file of files){
             const formData = new FormData();
