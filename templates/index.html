@@ -11,6 +11,7 @@
         <link href="{{ url_for('static', filename='css/style.css') }}" rel="stylesheet">
     </head>
     <body>
+        <section class="loading-mask"></section>
         <header>
             <div class="drop-audio">
                 <input type="file" multiple="" accept=".wav" hidden="">
@@ -26,11 +27,8 @@
             <div class="modal-container">
                 <p class="modal-header">Список файлов для обработки:</p>
                 <ul class="uploads-list">
-                    <!-- <li>
-                        <img src="{{ url_for('static', filename='images/default-audio-image.webp') }}" class="img-fluid">
-                        Имя файла
-                    </li> -->
                 </ul>
+                <p class="usage-warning">Мы настоятельно рекомендуем использовать .wav файлы с частотой дискредитации 16кГц, иначе результаты анализа могут быть неточными.</p>
                 <button type="submit" name="analyse">Анализировать</button>
             </div>
         </div>

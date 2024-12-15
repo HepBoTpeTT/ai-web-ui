@@ -1,0 +1,17 @@
+torchaudio
+soundfile
+tqdm
+scipy
+numpy
+einops
+rotary_embedding_torch
+torchinfo
+packaging
+typing
+yamlargparse
+librosa
+pesq
+opencv-python
+python_speech_features
+scenedetect
+torchvision

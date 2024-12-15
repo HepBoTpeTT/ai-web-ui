@@ -1,16 +1,18 @@
 import numpy as np
 import librosa
 from tensorflow.keras.models import load_model
+import ffmpeg
 import joblib
 import os
+import subprocess
 
 TF_ENABLE_ONEDNN_OPTS=0
 
 # Определение имени файла с параметрами масштабирования данных
-scaler_filename = "scaler.save"
+scaler_filename = "emotion_recognition\\scaler.save"
 
 # Загрузка модели и параметров масштабирования данных
-model = load_model('emotion_recognition_model.h5')
+model = load_model('emotion_recognition\\emotion_recognition_model.h5')
 scaler = joblib.load(scaler_filename)
 
 def map_emotions(emotion):
@@ -40,14 +42,3 @@ def predict_emotion(audio_path):
         return 'Positive' if predicted_class[0] == 1 else 'Negative'
     else:
         return 'Error in feature extraction'
-
-def start_analyse(file_path):
-    # import sys
-    # if len(sys.argv) != 2:
-    #     print("Usage: python predict_emotion.py <audio_file_path>")
-    #     sys.exit(1)
-
-    emotion = predict_emotion(file_path)
-    print(file_path, emotion)
-    # print(f"Predicted emotion: {emotion}")
-    return emotion
