@@ -8,7 +8,7 @@ import soundfile as sf
 import webbrowser
 from pydub import AudioSegment
 import os
-# import sys
+
 app = Flask(__name__)
 app.config['SERVER_NAME'] = 'localhost:5000'
 
@@ -17,8 +17,6 @@ path = Path('static')
 audio_processed_path = Path('audio_processed')
 
 
-# ffmpeg_path = os.path.join(os.path.dirname(sys.executable), 'Scripts')  # или 'bin' для Linux/Mac
-# os.environ['PATH'] = ffmpeg_path + os.pathsep + os.environ['PATH']
 
 ## Audio spearation func
 

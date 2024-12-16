@@ -1,0 +1,5 @@
+cmd "python -m venv venv"
+cmd "venv\scripts\activate"
+cmd "pip install -r requirements.txt"
+cmd "python setup_ffmpeg.py"
+cmd "python app.py"
