@@ -34,25 +34,5 @@
         </div>
         <script src="{{ url_for('static', filename='js/scripts.js') }}"></script>
         <script src="{{ url_for('static', filename='js/dragNdrop.js') }}"></script>
-        <script type="text/javascript">
-            function update_single(audio_path){
-                fetch('/update_single', {
-                    method: 'POST',
-                    body: JSON.stringify({audio_path : audio_path})
-                })
-                .then(response => {
-                    if (response.ok) {
-                        return response.json(); // Обрабатываем ответ в формате JSON
-                    }
-                    throw new Error('Ошибка при загрузке файлов');
-                })
-                .then(data => {
-                    alert(data.emotion)
-                })
-                .catch(error => {
-                    console.error('Ошибка:', error);
-                });
-            }
-        </script>
     </body>
 </html>
