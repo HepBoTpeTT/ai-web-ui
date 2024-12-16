@@ -1,5 +1,13 @@
-cmd "python -m venv venv"
-cmd "venv\scripts\activate"
-cmd "pip install -r requirements.txt"
-cmd "python setup_ffmpeg.py"
-cmd "python app.py"
+chcp 65001
+@echo off
+echo Создание виртуального окружения...
+python -m venv venv
+echo Активация виртуального окружения...
+call venv\Scripts\activate
+echo Установка зависимостей...
+pip install -r requirements.txt
+echo Запуск скрипта setup_ffmpeg.py...
+python setup_ffmpeg.py
+echo Запуск приложения...
+python app.py
+pause
