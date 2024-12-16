@@ -150,22 +150,24 @@ window.addEventListener('DOMContentLoaded', ()=>{
         document.querySelector('.loading-mask').style.display = 'block';
 
         
-        for (const file of localFiles){
-            const formData = new FormData();
-                  formData.append('files', file);
+        const formData = new FormData();
+        localFiles.map(item => {formData.append('files', item)})
 
-            fetch('/upload', {
-                method: 'POST',
-                body: formData
-            })
-            .then(response => {
-                if (response.ok) {
-                    return response.text(); // Обрабатываем ответ в формате JSON
-                }
-                throw new Error('Ошибка при загрузке файлов');
-            })
-            .then(templateContent => {
-                if (templateContent === '') {return};
+        fetch('/upload', {
+            method: 'POST',
+            body: formData
+        })
+        .then(response => {
+            if (response.ok) {
+                return response.json(); // Обрабатываем ответ в формате JSON
+            }
+            throw new Error('Ошибка при загрузке файлов');
+        })
+        .then(data => {
+            document.querySelector('.loading-mask').style = '';
+            hideModal();
+            if (data.audios === '') {return};
+            for(var templateContent of data.audios){
                 let main = document.querySelector('.other-audio');
                 let doc = DOMparser.parseFromString(templateContent, 'text/html');
                 document.querySelector('main').classList.add('audio');
@@ -174,12 +176,10 @@ window.addEventListener('DOMContentLoaded', ()=>{
 
                 new AudioPlayer(doc.querySelector('.audio-container'));
                 main.appendChild(doc.querySelector('.audio-container'));
-
-                document.querySelector('.loading-mask').style = '';
-            })
-            .catch(error => {
-                console.error('Ошибка:', error);
-            });
-        }
+            }
+        })
+        .catch(error => {
+            console.error('Ошибка:', error);
+        });
     });
 });
