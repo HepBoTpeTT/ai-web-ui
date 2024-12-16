@@ -1,4 +1,5 @@
-Необходимо отдельно скачать ffmpeg.exe:
-1. Скачайте архив по ссылке https://www.gyan.dev/ffmpeg/builds/ffmpeg-git-full.7z
-2. Извлеките ffmpeg.exe в корневую директорию этого репозитория
-3. Для первого запуска используйте setup.bat, далее start.bat
+Необходимо отдельно скачать ffmpeg.exe и ffprobe.exe:
+1. Скачайте архив по ссылке https://www.gyan.dev/ffmpeg/builds/ffmpeg-git-full.7z;
+2. Извлеките ffmpeg.exe и ffprobe.exe в venv/Scripts;
+3. Для установки используйте setup.bat;
+4. Для запуска используйте start.bat
