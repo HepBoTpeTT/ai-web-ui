@@ -78,12 +78,16 @@ function createAudio(file, parent){
                                     </g>
                                 </svg>`;
 
+    let needsSeparating = document.createElement('input');
+        needsSeparating.type="checkbox";
+
     delButton.addEventListener('click', ()=>{
         localFiles = removeFileByName(localFiles, file.name);
         parent.removeChild(fileLi);
     });
 
     fileLi.insertAdjacentElement('afterbegin', fileImg);
+    fileLi.insertAdjacentElement('beforeend', needsSeparating);
     fileLi.insertAdjacentElement('beforeend', delButton);
     parent.appendChild(fileLi);
     
@@ -125,8 +129,10 @@ window.addEventListener('DOMContentLoaded', ()=>{
     fileInput.addEventListener('change', ()=>{
         const files = fileInput.files;
         [...files].forEach(newFile => {
-            const fileExists = localFiles.find(file => file.name === newFile.name);
-            if (/.wav/.exec(newFile.name) && !fileExists && !totalFiles.includes(newFile)) {
+            const localFileExists = localFiles.find(file => file.name === newFile.name);
+            const totalFileExist = totalFiles.find(file => file.name === newFile.name);
+
+            if (/.wav/.exec(newFile.name) && !localFileExists && !totalFileExist) {
                 localFiles.push(newFile);
                 createAudio(newFile, filesList);
             }
@@ -141,6 +147,12 @@ window.addEventListener('DOMContentLoaded', ()=>{
     document.querySelector('button[name="analyse"]').addEventListener('click', () => {
         if (localFiles.length === 0) { emptyInputAlert(fileInput); return };
 
+        let separatingFlags = {};
+
+        [...document.querySelectorAll('.uploads-modal li')].forEach(li =>{
+            separatingFlags[li.getAttribute('name')] = li.querySelector('input[type="checkbox"]').checked
+        })
+
         filesList.innerHTML = '';
         document.querySelector('.uploads-modal').classList.remove('active');
         const DOMparser = new DOMParser();
@@ -151,11 +163,14 @@ window.addEventListener('DOMContentLoaded', ()=>{
 
         
         const formData = new FormData();
-        localFiles.map(item => {formData.append('files', item)})
+        localFiles.map(item => {
+            formData.append('files', item)
+        })
+        formData.append('sepsFlags', JSON.stringify(separatingFlags))
 
         fetch('/upload', {
             method: 'POST',
-            body: formData
+            body: formData,
         })
         .then(response => {
             if (response.ok) {
