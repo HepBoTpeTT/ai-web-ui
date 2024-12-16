@@ -6,9 +6,19 @@ from audio_separation.clearvoice import ClearVoice
 from emotion_recognition.prog import predict_emotion
 import soundfile as sf
 import webbrowser
+from pydub import AudioSegment
+import os
+# import sys
 app = Flask(__name__)
+app.config['SERVER_NAME'] = 'localhost:5000'
+
+
 path = Path('static')
 audio_processed_path = Path('audio_processed')
+
+
+# ffmpeg_path = os.path.join(os.path.dirname(sys.executable), 'Scripts')  # или 'bin' для Linux/Mac
+# os.environ['PATH'] = ffmpeg_path + os.pathsep + os.environ['PATH']
 
 ## Audio spearation func
 
@@ -49,38 +59,74 @@ def fn_clearvoice_se(input_wav, sr):
     return input_wav
 ##
 
+def generate_response(files):
+    with app.app_context():
+        for file in files:
+            print('----------------------')
+            file_path = str(path / 'audio-source' / f'{file.filename[:-4]}_16k.wav')
+            print('', file_path, '', sep='\n')
+
+            new_folder_path = path / audio_processed_path / file.filename[:-4]
+            new_folder_path.mkdir(exist_ok=True)
+
+            link_path = str(audio_processed_path / file.filename[:-4] / 'operator.wav').replace('\\', '/')
+
+            print(
+                '',
+                f'Сохранённый файл: {new_folder_path / "operator.wav"}',
+                f'Путь для ссылки {link_path}',
+                '',
+                sep="\n"
+            )
+
+            operator = fn_clearvoice_ss(file_path, new_folder_path)
+            operator_denoised = fn_clearvoice_se(operator, "16000 Hz")
+            emotion = predict_emotion(operator_denoised)
+
+            os.remove(file_path)
+
+            if emotion == 'Positive': continue
+
+            audio_path = url_for('static', filename=link_path)
+            image = url_for('static', filename='images/default-audio-image.webp')
+
+            yield render_template('audio-card.html', name = f'{file.filename} / operator', image = image,
+                                audio_path = audio_path, emotion = emotion)
+
+def save_file_in_good_format(file):
+    try:
+        temp_file_path = Path('temp', file.filename)
+        audio = AudioSegment.from_file(str(temp_file_path))
+        audio = audio.set_frame_rate(16000)
+
+        # Сохраняем файл в формате WAV
+        output_file_path = str(path / 'audio-source' / f"{file.filename[:-4]}_16k.wav")
+        audio.export(output_file_path, format='wav')
+
+        # Удаляем временный файл
+        os.remove(temp_file_path)
+
+        print(f'Файл сохранён: {output_file_path}')
+        return output_file_path
+
+    except Exception as e:
+        print(f'Ошибка при обработке файла {file.filename}: {e}')
+
 @app.route('/')
 def index():
     return render_template('index.html')
 
 @app.route('/upload', methods=['POST'])
 def upload():
-        files = request.files.getlist('files')
+    files = request.files.getlist('files')
 
-        file_path = str(path / 'audio-source' / files[0].filename)
-        files[0].save(file_path)
+    # Предварительное сохранение файлов
+    tuple(map(lambda file: file.save(Path('temp', file.filename)), files))
 
-        new_folder_path = path / audio_processed_path / files[0].filename[:-4]
-        new_folder_path.mkdir(exist_ok=True)
+    # Пересохранение файлов в нужный формат
+    tuple(map(lambda item: save_file_in_good_format(item), files))
 
-        link_path = str(audio_processed_path / files[0].filename[:-4] / 'operator.wav').replace('\\', '/')
-
-        print(
-            '',
-            f'Сохранённый файл: {new_folder_path / "operator.wav"}',
-            f'Путь для ссылки {link_path}',
-            '',
-            sep="\n"
-        )
-
-        operator = fn_clearvoice_ss(file_path, new_folder_path)
-        operator_denoised = fn_clearvoice_se(operator, "16000 Hz")
-        emotion = predict_emotion(operator_denoised)
-        
-        if emotion == 'Positive' : return make_response()
-        
-        return render_template('audio-card.html', name = f'{files[0].filename} / operator', image = 'images/default-audio-image.webp',
-                               audio_path = link_path, emotion = emotion)
+    return jsonify({'audios' : list(map(lambda i: i, generate_response(files)))})
 
 @app.route('/update_single', methods=['POST'])
 def update_single():
