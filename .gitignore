@@ -1,2 +1,5 @@
 venv/
-ffmpeg.exe
+static/audio-source/*
+!static/audio-source/.gitkeep
+temp/*
+!temp/.gitkeep
