@@ -245,6 +245,12 @@ header.audio button{
     width: 45px;
     margin-right: 1rem;
 }
+.uploads-list li input[type="checkbox"]{
+    right: 30px;
+    position: absolute;
+    margin: 0;
+}
+
 .modal-container button[name="analyse"]{
     --font-size: 1.25rem;
     margin-top: 1.5rem;
@@ -266,4 +272,5 @@ header.audio button{
 .uploads-delete-button svg{
     aspect-ratio: 1 / 1;
     width: var(--width);
+    top: -7px;
 }
