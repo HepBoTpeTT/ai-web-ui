@@ -11,7 +11,7 @@
 2. Запустите setup.bat
    На этом шаге будет создано виртуальное окружение и скачаны необходимые библиотеки;
 3. Необходимо отдельно скачать <ins>ffmpeg.exe</ins> и <ins>ffprobe.exe</ins>:
-    - Скачайте актулальный билд <ins>ffmepg</ins> по <a href="https://www.gyan.dev/ffmpeg/builds/ffmpeg-git-full.7z">ссылке</a>;
+    - Скачайте актулальный билд <ins>ffmpeg</ins> по <a href="https://www.gyan.dev/ffmpeg/builds/ffmpeg-git-full.7z">ссылке</a>;
     - Извлеките <ins>ffmpeg.exe</ins> и <ins>ffprobe.exe</ins> в `venv/Scripts`;
 4. Готово! Для запуска используйте <ins>start.bat</ins>.
 
@@ -38,4 +38,4 @@
 > Вне зависимости от результата оценки, аудиофайл сохраняется по пути `static/audio_processed/[Имя файла без расширения]/operator.wav`.
 
 # Возможные проблемы при использовании
-При использовании вы можете столкнуться с проблемой отсутствия файла модели <a href="https://github.com/modelscope/ClearerVoice-Studio/tree/main/clearvoice">ClearVoice</a>. В таком случае вам нужно будет перейти по <a href="https://huggingface.co/spaces/alibabasglab/ClearVoice/tree/main">ссылке</a> и скачать оттуда модели для `MossFormer2_SS_16K`, `FRCRN_SE_16K`, `AV_MossFormer2_TSE_16K`. После этого разместить их в папках с соответствующим названием в `audio_separation\checkpoints`.
+При использовании вы можете столкнуться с проблемой отсутствия файла модели <a href="https://github.com/modelscope/ClearerVoice-Studio/tree/main/clearvoice">ClearVoice</a>. В таком случае вам нужно будет перейти по <a href="https://huggingface.co/spaces/alibabasglab/ClearVoice/tree/main/checkpoints">ссылке</a> и скачать оттуда модели (`.pt` файлы) для `MossFormer2_SS_16K`, `FRCRN_SE_16K`. После этого разместить их соответственно в `audio_separation\checkpoints`.
