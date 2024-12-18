@@ -158,10 +158,6 @@ class network_wrapper(nn.Module):
             from audio_separation.networks import CLS_FRCRN_SE_16K
             self.network = CLS_FRCRN_SE_16K(self.args)  # Load FRCRN model
 
-        elif self.args.network == 'MossFormer2_SE_48K':
-            from audio_separation.networks import CLS_MossFormer2_SE_48K
-            self.network = CLS_MossFormer2_SE_48K(self.args)  # Load MossFormer2 model
-
         elif self.args.network == 'MossFormer2_SS_16K':
             from audio_separation.networks import CLS_MossFormer2_SS_16K
             self.network = CLS_MossFormer2_SS_16K(self.args)  # Load MossFormer2 for separation
