@@ -38,4 +38,4 @@
 > Вне зависимости от результата оценки, аудиофайл сохраняется по пути `static/audio_processed/[Имя файла без расширения]/operator.wav`.
 
 # Возможные проблемы при использовании
-При использовании вы можете столкнуться с проблемой отсутствия файла модели <a href="https://github.com/modelscope/ClearerVoice-Studio/tree/main/clearvoice">ClearVoice</a>. В таком случае вам нужно будет перейти по <a href="https://huggingface.co/spaces/alibabasglab/ClearVoice/tree/main/checkpoints">ссылке</a> и скачать оттуда модели (`.pt` файлы) для `MossFormer2_SS_16K`, `FRCRN_SE_16K`. После этого разместить их соответственно в `audio_separation\checkpoints`.
+При использовании вы можете столкнуться с проблемой отсутствия файла модели <a href="https://github.com/modelscope/ClearerVoice-Studio/tree/main/clearvoice">ClearVoice</a>. В таком случае вам нужно будет перейти по <a href="https://github.com/HepBoTpeTT/ai-web-ui/tree/main/audio_separation/checkpoints">ссылке</a> и скачать оттуда модели (`.pt` файлы) для `MossFormer2_SS_16K`, `FRCRN_SE_16K`. После этого разместить их соответственно в `audio_separation\checkpoints`.
